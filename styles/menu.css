@@ -37,13 +37,17 @@ li { margin: 0.2em 0; }
     transform: rotate(90deg);
 }
 .version-list {
-      display: none;
-      margin-top: 0.3em;
-      margin-left: 1em;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0.3em;
+    margin-left: 1em;
+    transition: max-height 0.3s ease;
 }
+
 .version-list.visible {
-    display: block;
+    max-height: 1000px;
 }
+
 a[data-path] {
     text-decoration: none;
     color: #333;
