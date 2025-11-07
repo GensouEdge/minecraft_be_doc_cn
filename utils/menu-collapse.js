@@ -1,16 +1,22 @@
-// menu-collapse.js
 document.addEventListener("DOMContentLoaded", () => {
     const menu = document.getElementById("menu");
 
-    menu.addEventListener("click", (e) => {
-      const header = e.target.closest(".version-title");
-      if (!header) return; // 不是版本标题就返回
+    menu.querySelectorAll(".version-title").forEach(title => {
+        const ul = title.nextElementSibling;
+        ul.classList.add("version-list");
 
-      const versionList = header.nextElementSibling; // 紧跟标题的 ul
-      if (!versionList) return;
-
-      // 切换显示状态
-      versionList.classList.toggle("visible");
-      header.classList.toggle("expanded");
+        title.classList.add("version-title");
+        title.addEventListener("click", () => {
+            ul.classList.toggle("visible");
+            title.classList.toggle("expanded");
+        });
     });
-  });
+
+    menu.addEventListener("click", (e) => {
+        const link = e.target.closest("a[data-path]");
+        if (!link) return;
+
+        menu.querySelectorAll("a.active").forEach(a => a.classList.remove("active"));
+        link.classList.add("active");
+    });
+});
