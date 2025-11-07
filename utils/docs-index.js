@@ -66,7 +66,7 @@ async function buildMenu() {
         const expanded = [...menu.querySelectorAll(".version-title.expanded")].map(t=>t.textContent);
         localStorage.setItem("docsMenu.expanded", JSON.stringify(expanded));
     }
-    menu.addEventListener("click", async e=>{
+    menu.addEventListener("click", async e => {
         const link = e.target.closest("a[data-path]");
         if(!link) return;
         e.preventDefault();
@@ -75,7 +75,7 @@ async function buildMenu() {
         link.classList.add("active");
         await loadDocIntoIframe(path);
 
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 1000) {
             document.getElementById('menu').classList.remove('active');
             document.getElementById('docFrame').classList.remove('active');
         }
