@@ -20,3 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
         link.classList.add("active");
     });
 });
+
+document.getElementById('menu-toggle').addEventListener('click', function() {
+    document.getElementById('menu').classList.toggle('active');
+    document.getElementById('docFrame').classList.toggle('active');
+});
