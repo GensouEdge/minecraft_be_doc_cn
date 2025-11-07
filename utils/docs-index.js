@@ -74,6 +74,11 @@ async function buildMenu() {
         menu.querySelectorAll("a.active").forEach(a=>a.classList.remove("active"));
         link.classList.add("active");
         await loadDocIntoIframe(path);
+
+        if (window.innerWidth < 768) {
+            document.getElementById('menu').classList.remove('active');
+            document.getElementById('docFrame').classList.remove('active');
+        }
     });
 }
 async function loadDocIntoIframe(path) {
