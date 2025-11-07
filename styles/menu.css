@@ -17,7 +17,6 @@ body {
     padding: 5px;
     border-radius: 4px;
     transition: all 0.3s ease;
-    content: "\2630";
 }
 #menu-togggle:hover {
     background: #e0e0e0;
