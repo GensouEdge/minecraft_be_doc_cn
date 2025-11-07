@@ -30,7 +30,7 @@ body {
     background: #fafafa;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     #menu {
         position: fixed;
         top: 0;
@@ -72,7 +72,7 @@ li { margin: 0.2em 0; }
     align-items: center;
 }
 .version-title::before {
-    content: "\FE0E\25B6";
+    content: "\FE0E\25B6\FE0E";
     display: inline-block;
     margin-right: 6px;
     transition: transform 0.2s ease;
