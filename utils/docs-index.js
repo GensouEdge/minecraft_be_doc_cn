@@ -74,11 +74,9 @@ async function buildMenu() {
         menu.querySelectorAll("a.active").forEach(a=>a.classList.remove("active"));
         link.classList.add("active");
         await loadDocIntoIframe(path);
+        document.getElementById('menu').classList.remove('active');
+        document.getElementById('docFrame').classList.remove('active');
 
-        if (window.innerWidth < 1000) {
-            document.getElementById('menu').classList.remove('active');
-            document.getElementById('docFrame').classList.remove('active');
-        }
     });
 }
 async function loadDocIntoIframe(path) {
