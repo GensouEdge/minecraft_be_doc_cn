@@ -6,7 +6,7 @@ const versions = ["1.18.10",
                   "1.21.90.3",
                   "1.21.100.6",
                 ];
-const cssPath = "styles/styles.css";
+const cssPath = "../styles/styles.css";
 
 async function fetchDocs(version) {
     const res = await fetch(`${version}/`);
@@ -27,35 +27,69 @@ async function fetchDocs(version) {
 
 async function buildMenu() {
     const menu = document.getElementById("menu");
-    let html = "<ul>";
-    for (const v of versions) {
-        const docs = await fetchDocs(v);
-        html += `<li><strong>${v}</strong><ul>`;
-        for (const d of docs) {
-            html += `<li><a href="${d.path}" target="docFrame" data-path="${d.path}">${d.name}</a></li>`;
-        }
-        html += "</ul></li>";
-    }
-    html += "</ul>";
-    menu.innerHTML = html;
 
-    menu.addEventListener("click", async (e) => {
+    menu.innerHTML = "<ul>" +
+        (await Promise.all(versions.map(async v => {
+            const docs = await fetchDocs(v);
+            const items = docs.map(d=>`<li><a href="${d.path}" target="docFrame" data-path="${d.path}">${d.name}</a></li>`).join("");
+            return `<li>
+                <div class="version-title" tabindex="0">${v}</div>
+                <ul class="version-list">${items}</ul>
+            </li>`;
+        }))).join("") + "</ul>";
+
+    const expanded = JSON.parse(localStorage.getItem("docsMenu.expanded")||"[]");
+    menu.querySelectorAll(".version-title").forEach(title=>{
+        const list = title.nextElementSibling;
+        if(expanded.includes(title.textContent)){
+            title.classList.add("expanded");
+            list.classList.add("visible");
+        }
+        title.addEventListener("click", ()=>toggle(title));
+        title.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" ") { e.preventDefault(); toggle(title); } });
+    });
+
+    function toggle(title) {
+        const list = title.nextElementSibling;
+        const isExpanded = title.classList.contains("expanded");
+        if(isExpanded){
+            title.classList.remove("expanded");
+            list.classList.remove("visible");
+        }else{
+            title.classList.add("expanded");
+            list.classList.add("visible");
+        }
+        saveState();
+    }
+
+    function saveState() {
+        const expanded = [...menu.querySelectorAll(".version-title.expanded")].map(t=>t.textContent);
+        localStorage.setItem("docsMenu.expanded", JSON.stringify(expanded));
+    }
+    menu.addEventListener("click", async e=>{
         const link = e.target.closest("a[data-path]");
-        if (!link) return;
+        if(!link) return;
         e.preventDefault();
         const path = link.dataset.path;
+        menu.querySelectorAll("a.active").forEach(a=>a.classList.remove("active"));
+        link.classList.add("active");
         await loadDocIntoIframe(path);
     });
 }
-
 async function loadDocIntoIframe(path) {
     const iframe = document.getElementById("docFrame");
     try {
         const res = await fetch(path);
         const html = await res.text();
+        const abs = new URL(path, window.location.href);
+        const baseHref = abs.href.substring(0, abs.href.lastIndexOf("/") + 1);
+
         iframe.srcdoc = `
+        <!doctype html>
         <html>
             <head>
+                <meta charset="utf-8">
+                <base href="${baseHref}">
                 <link rel="stylesheet" href="${cssPath}">
             </head>
             <body>
@@ -63,17 +97,39 @@ async function loadDocIntoIframe(path) {
             </body>
         </html>
         `;
+
         iframe.onload = () => {
             const doc = iframe.contentDocument;
             if (!doc) return;
-            const links = doc.querySelectorAll("a[href$='.html']");
+            const links = doc.querySelectorAll("a[href]");
             links.forEach(a => {
-                a.addEventListener("click", (ev) => {
-                ev.preventDefault();
                 const href = a.getAttribute("href");
-                const base = path.substring(0, path.lastIndexOf("/") + 1);
-                const nextPath = href.includes("/") ? href : base + href;
-                loadDocIntoIframe(nextPath);
+                if (!href) return;
+
+                if (href.startsWith("#")) {
+                    a.addEventListener("click", ev => {
+                        ev.preventDefault();
+                        const target = doc.getElementById(href.slice(1));
+                        if (target) target.scrollIntoView();
+                        else iframe.contentWindow.location.hash = href;
+                    });
+                    return;
+                }
+                if (href.trim().toLowerCase().startsWith("javascript:")) return;
+
+                let url;
+                try {
+                    url = new URL(href, baseHref);
+                } catch (e) {
+                    return;
+                }
+                if (url.origin !== window.location.origin) return;
+                if (!url.pathname.toLowerCase().endsWith(".html")) return;
+
+                a.addEventListener("click", (ev) => {
+                    ev.preventDefault();
+                    const nextPath = url.pathname + url.search + url.hash;
+                    loadDocIntoIframe(nextPath);
                 });
             });
         };
@@ -81,5 +137,6 @@ async function loadDocIntoIframe(path) {
         iframe.srcdoc = `<p style="color:red;">加载失败：${path}</p>`;
     }
 }
+
 
 buildMenu();
