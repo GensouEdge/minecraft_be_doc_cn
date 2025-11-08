@@ -1,52 +1,194 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎页面</title>
-    <style>body {
-        font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        text-align: center;
-    }
-    .content {
-        max-width: 600px;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    .welcome-message {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-        color: #2c3e50;
-    }
-    .menu-instruction {
-        font-size: 1.2rem;
-        color: #7f8c8d;
-    }
-    .instruction-highlight {
-        font-weight: bold;
-        color: #3498db;
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    .instruction-highlight:hover {
-        color: #007acc;
-    }</style>
-</head>
-<body>
-    <div class="content">
-        <div class="welcome-message">欢迎来到文档索引页面</div>
-        <div class="menu-instruction">
-            点击左上角的 <span class="instruction-highlight">☰</span> 按钮展开菜单，或直接点击左侧选栏。
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Minecraft Addons 文档</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+                background-color: #f2f2f2;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                height: 100vh;
+            }
+            .content {
+                max-width: 900px;
+                padding: 30px;
+                background-color: #fff;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                margin-top: 50px;
+                text-align: left;
+                overflow: hidden;
+            }
+            .welcome-message {
+                font-size: 2rem;
+                font-weight: 600;
+                color: #2c3e50;
+                margin-bottom: 20px;
+            }
+            .menu-instruction {
+                font-size: 1.2rem;
+                color: #7f8c8d;
+                margin-bottom: 15px;
+            }
+            .instruction-highlight {
+                font-weight: bold;
+                color: #3498db;
+                cursor: pointer;
+                text-decoration: underline;
+            }
+            .instruction-highlight:hover {
+                color: #007acc;
+            }
+            h2 {
+                color: #34495e;
+                font-size: 1.6rem;
+                margin-top: 30px;
+                border-bottom: 2px solid #ecf0f1;
+                padding-bottom: 10px;
+            }
+            h3 {
+                font-size: 1.4rem;
+                color: #34495e;
+                margin-top: 20px;
+            }
+            p, ul {
+                font-size: 1rem;
+                line-height: 1.6;
+                color: #333;
+                margin-bottom: 15px;
+            }
+            ul {
+                list-style-type: square;
+                margin-left: 20px;
+            }
+            li {
+                margin-bottom: 8px;
+            }
+            a {
+                color: #3498db;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #007acc;
+                text-decoration: underline;
+            }
+            .license {
+                font-size: 0.9rem;
+                color: #7f8c8d;
+                margin-top: 20px;
+            }
+            pre {
+                background-color: #2d2d2d;
+                color: #f8f8f2;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                font-family: 'Courier New', 'Consolas', monospace;
+                line-height: 1.5;
+                overflow-x: auto;
+                word-wrap: normal;
+                margin: 15px 0;
+                box-shadow: 0 4px 10px rgba(102, 102, 102, 0.1);
+            }
+
+            code {
+                font-family: 'Courier New', 'Consolas', monospace;
+                font-size: 1rem;
+                color: #6e6e6e;
+                display: inline-block;
+                padding: 0.1rem 0.3rem;
+                background-color: #f8f8f8;
+                border-radius: 4px;
+            }
+
+            pre code {
+                background: transparent;
+                padding: 0;
+            }
+            @media (max-width: 1000px) {
+                body {
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                }
+
+                .content {
+                    position: fixed;
+                    max-width: 100%;
+                    padding: 15px;
+                    margin-top: 20px;
+                    top: 70px;
+                }
+                .welcome-message {
+                    font-size: 3rem;
+                }
+
+                .menu-instruction {
+                    font-size: 2.1rem;
+                }
+
+                h2 {
+                    font-size: 2.1rem;
+                }
+
+                h3 {
+                    font-size: 2.1rem;
+                }
+
+                p, ul {
+                    font-size: 1.8rem;
+                }
+
+                pre {
+                    font-size: 1.8rem;
+                }
+                code {
+                    font-size:1.8rem;
+                }
+                .license {
+                font-size: 1.5rem;
+                color: #597172;
+                margin-top: 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <div class="welcome-message">Minecraft Addons 文档</div>
+            <p>本文档由 <a href="https://github.com/GensouEdge" target="_blank">幻想边境社团</a> 翻译（可加入翻译组）。部分翻译取自 <a href="https://bedrock.dev/zh" target="_blank">bedrock.dev</a>。</p>
+
+            <h2>贡献者</h2>
+            <p>此文档由 <a href="https://github.com/GensouEdge" target="_blank">幻想边境社团</a> 翻译（可加入翻译组）。</p>
+            <p>部分翻译取自 <a href="https://bedrock.dev/zh" target="_blank">bedrock.dev</a>。</p>
+
+            <h2>许可证</h2>
+            <p class="license">本文档遵循 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh" target="_blank">CC-BY-NC</a> 协议。<img src="img/by-nc.eu.png" alt="跳转图片" style="width:8%; position: relative; top: 5px"></p>
+            <ul>
+                <li>您可以复制、发行、展览、表演、放映、广播或通过信息网络传播本作品；</li>
+                <li>您必须按照作者或者许可人指定的方式对作品进行署名；</li>
+                <li>您不得为商业目的而使用本作品。</li>
+            </ul>
+
+            <h2>建议</h2>
+            <p>本文档适合配合 <a href="https://zh.minecraft.wiki/" target="_blank">MinecraftWiki</a> 和 <a href="https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/componentlist?view=minecraft-bedrock-stable" target="_blank">learn.microsoft.com</a> 进行查阅。</p>
+
+            <h2>注意</h2>
+            <p>文档原文就存在些许问题，以下为一些常见问题：</p>
+            <ul>
+                <li><code>minecraft:equippable</code> 中的 <code>on_equip</code> 和 <code>on_unequip</code> 的类型应该是 <code>JSON Object</code>，但在文档原文中显示的类型却是 <code>String</code>。</li>
+                <li>幽默 Mojang 在正文中会使用 <code>&lt;&gt;</code>，例如： <code>definitions/entity/&lt;entity_name&gt;.json</code>，但浏览器会将 <code>&lt;&gt;</code> 和其中的内容当作 HTML 标签处理，导致 <code>&lt;entity_name&gt;</code> 被当作标签屏蔽。此类情况可以使用转义符 <code>&lt;</code> 和 <code>&gt;</code> 来表示 <code>&lt;</code> 和 <code>&gt;</code>。</li>
+            </ul>
+            <p>想帮我们找出类似的其它问题？请发 <a href="https://github.com/GensouEdge/minecraft_be_doc_cn/issues" target="_blank"><strong>Issue</strong></a>。</p>
+
+            <div class="menu-instruction"> 欢迎来到文档索引页面，点击左上角的 <span class="instruction-highlight">☰</span> 按钮展开菜单，或直接点击左侧选栏。 </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

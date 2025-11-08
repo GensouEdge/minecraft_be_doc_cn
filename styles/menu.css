@@ -74,7 +74,7 @@ li { margin: 0.2em 0; }
     user-select: none;
     display: flex;
     align-items: center;
-    font-size: 1.8em;
+    font-size: 1.2em;
 }
 .version-title::before {
     content: "\FE0E\25B6\FE0E";
@@ -89,7 +89,7 @@ li { margin: 0.2em 0; }
     display: none;
     margin-top: 0.3em;
     margin-left: 1em;
-    font-size: 1.5em;
+    font-size: 1.1em;
 }
 .version-list.visible {
     display: block;
@@ -138,6 +138,13 @@ a.active {
     #menu-toggle {
         display: block;
         font-size: 50px;
+    }
+
+    .version-title {
+        font-size: 1.8em;
+    }
+    .version-list {
+        font-size: 1.5em;
     }
 
     #docFrame {
