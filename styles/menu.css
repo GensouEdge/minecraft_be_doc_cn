@@ -43,22 +43,17 @@ body {
         transform: translateX(-100%);
         z-index: 999;
         box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        padding-left: 3em;
     }
     #menu.active {
         transform: translateX(0);
     }
     #menu-toggle {
         display: block;
+        font-size: 50px;
     }
-
     #docFrame {
         width: 100%;
-        margin-left: 0;
-        transition: margin-left 0.3s ease;
-        will-change: margin-left;
-    }
-    #docFrame.active {
-        margin-left: 80%;
     }
     body {
         font-size: 20px;
