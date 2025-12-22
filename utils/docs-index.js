@@ -90,6 +90,13 @@ async function buildMenu() {
         document.getElementById('docFrame').classList.remove('active');
 
     });
+
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+        requestAnimationFrame(() => {
+            document.getElementById('menu').classList.toggle('active');
+            document.getElementById('docFrame').classList.toggle('active');
+        });
+    });
 }
 async function loadDocIntoIframe(path) {
     const iframe = document.getElementById("docFrame");
