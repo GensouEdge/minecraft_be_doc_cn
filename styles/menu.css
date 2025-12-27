@@ -1,8 +1,10 @@
 body {
     margin: 0;
+    padding: 0 !important;
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden;
     font-family: sans-serif;
 }
 
@@ -41,7 +43,10 @@ body {
 #content {
     display: flex;
     flex: 1;
-    min-height: 100vh;
+    height: 100%;
+    min-height: 0;
+    position: relative;
+    width: 100%;
 }
 
 #menu {
@@ -110,6 +115,10 @@ a.active {
 
 
 @media (max-width: 1000px) {
+    #content {
+        padding-top: 60px;
+    }
+
     #menu {
         position: fixed;
         top: 80px;
@@ -150,5 +159,6 @@ a.active {
     #docFrame {
         width: 100%;
         margin-left: 0;
+        height: 100%;
     }
 }
