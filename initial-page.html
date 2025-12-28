@@ -15,7 +15,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                height: 100vh;
+                min-height: 100vh;
+                overflow-y: auto;
             }
             .content {
                 max-width: 900px;
@@ -24,8 +25,9 @@
                 border-radius: 12px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
                 margin-top: 50px;
+                margin-bottom: 50px;
                 text-align: left;
-                overflow: hidden;
+                box-sizing: border-box;
             }
             .welcome-message {
                 font-size: 2rem;
@@ -128,11 +130,10 @@
                 }
 
                 .content {
-                    position: fixed;
+                    position: relative;
                     max-width: 100%;
                     padding: 15px;
                     margin-top: 20px;
-                    top: 70px;
                 }
                 .welcome-message {
                     font-size: 3rem;
