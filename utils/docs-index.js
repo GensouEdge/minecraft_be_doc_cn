@@ -8,7 +8,8 @@ const versions = ["1.18.10",
                   "1.21.110.2",
                   "1.21.120.4",
                 ];
-const cssPath = "../styles/styles.css";
+
+const cssPath = new URL("styles/styles.css", document.baseURI).href;
 
 const cache = new Map();
 
@@ -37,7 +38,7 @@ async function buildMenu() {
 
     const menuContent = await Promise.all(versions.map(async v => {
         const docs = await fetchDocs(v);
-        const items = docs.map(d => `<li><a href="${d.path}" target="docFrame" data-path="${d.path}">${d.name}</a></li>`).join("");
+        const items = docs.map(d => `<li><a href="${d.path}"  data-path="${d.path}">${d.name}</a></li>`).join("");
         return `<li>
             <div class="version-title" tabindex="0">${v}</div>
             <ul class="version-list">${items}</ul>
@@ -99,65 +100,38 @@ async function buildMenu() {
     });
 }
 async function loadDocIntoIframe(path) {
-    const iframe = document.getElementById("docFrame");
+    const frame = document.getElementById("docFrame");
+    frame.src = path;
+}
+
+function applyDocStyles() {
+    const frame = document.getElementById("docFrame");
+
     try {
-        const res = await fetch(path);
-        const html = await res.text();
-        const abs = new URL(path, window.location.href);
-        const baseHref = abs.href.substring(0, abs.href.lastIndexOf("/") + 1);
+        const doc = frame.contentDocument;
+        if (!doc || !doc.head) return;
 
-        iframe.srcdoc = `
-        <!doctype html>
-        <html>
-            <head>
-                <meta charset="utf-8">
-                <base href="${baseHref}">
-                <link rel="stylesheet" href="${cssPath}">
-            </head>
-            <body>
-                ${html}
-            </body>
-        </html>
-        `;
+        // 首页自带独立样式，正文和版本索引才使用公共文档样式
+        const pathname = frame.contentWindow.location.pathname;
+        if (pathname.endsWith("/initial-page.html")) return;
 
-        iframe.onload = () => {
-            const doc = iframe.contentDocument;
-            if (!doc) return;
-            const links = doc.querySelectorAll("a[href]");
-            links.forEach(a => {
-                const href = a.getAttribute("href");
-                if (!href) return;
+        if (doc.head.querySelector('link[data-doc-styles="true"]')) return;
 
-                if (href.startsWith("#")) {
-                    a.addEventListener("click", ev => {
-                        ev.preventDefault();
-                        const target = doc.getElementById(href.slice(1));
-                        if (target) target.scrollIntoView();
-                        else iframe.contentWindow.location.hash = href;
-                    });
-                    return;
-                }
-                if (href.trim().toLowerCase().startsWith("javascript:")) return;
-
-                let url;
-                try {
-                    url = new URL(href, baseHref);
-                } catch (e) {
-                    return;
-                }
-                if (url.origin !== window.location.origin) return;
-                if (!url.pathname.toLowerCase().endsWith(".html")) return;
-
-                a.addEventListener("click", (ev) => {
-                    ev.preventDefault();
-                    const nextPath = url.pathname + url.search + url.hash;
-                    loadDocIntoIframe(nextPath);
-                });
-            });
-        };
-    } catch (err) {
-        iframe.srcdoc = `<p style="color:red;">加载失败：${path}</p>`;
+        const link = doc.createElement("link");
+        link.rel = "stylesheet";
+        link.href = cssPath;
+        link.dataset.docStyles = "true";
+        doc.head.appendChild(link);
+    } catch (error) {
+        // 仅允许为同源文档注入样式；跨域页面保持默认
+        console.warn("无法为文档加载样式：", error);
     }
+}
+
+const docFrame = document.getElementById("docFrame");
+docFrame.addEventListener("load", applyDocStyles);
+if (docFrame.contentDocument?.readyState === "complete") {
+    applyDocStyles();
 }
 
 if ('requestIdleCallback' in window) {
