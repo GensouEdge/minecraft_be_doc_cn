@@ -63,12 +63,60 @@ body {
     z-index: 999;
 }
 
-#docFrame {
+#doc-content {
     flex: 1;
-    border: none;
     min-width: 0;
-    height: 100%;
+    height: 100vh;
+    height: 100dvh;
     margin-left: 22%;
+    padding: 30px;
+    overflow: auto;
+    background: #f7f7f7;
+    color: #1c1c1c;
+    outline: none;
+}
+
+#doc-content.initial-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#doc-content.initial-page > .content {
+    width: min(900px, 100%);
+    padding: 30px;
+    margin: 20px 0 50px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#doc-content .welcome-message {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#doc-content .menu-instruction {
+    margin-bottom: 15px;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+#doc-content .instruction-highlight {
+    color: #3498db;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.loading-message,
+.load-error {
+    margin: 2rem;
+}
+
+.load-error {
+    color: #b42318;
 }
 
 ul { list-style-type: none; margin: 0; padding-left: 1em; }
@@ -162,9 +210,16 @@ a.active {
         font-size: 1.5em;
     }
 
-    #docFrame {
+    #doc-content {
         width: 100%;
         margin-left: 0;
-        height: 100%;
+        height: calc(100vh - 60px);
+        height: calc(100dvh - 60px);
+        padding: 15px;
+    }
+
+    #doc-content.initial-page > .content {
+        padding: 15px;
+        margin-top: 0;
     }
 }

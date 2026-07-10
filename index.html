@@ -2,6 +2,7 @@
 <html lang="zh">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Minecraft Addons 文档</title>
         <meta name="description" content="本文档由 幻想边境社团 翻译（可加入翻译组）。部分翻译取自 bedrock.dev。">
         <link rel="icon" type="image/jpg" href="img/Map.png" />
@@ -17,7 +18,9 @@
         </div>
         <div id="content">
             <div id="menu"></div>
-            <iframe name="docFrame" id="docFrame" loading="lazy" src="initial-page.html"></iframe>
+            <main id="doc-content" class="doc-content initial-page" tabindex="-1" aria-live="polite">
+                <p class="loading-message">正在加载文档…</p>
+            </main>
         </div>
         <script type="module" src="utils/docs-index.js" defer></script>
     </body>
